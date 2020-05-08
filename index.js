@@ -24,7 +24,7 @@ const options = {
     },
     pinataOptions: {
         cidVersion: 0,
-        wrapWithDirectory: true
+        wrapWithDirectory: false
     }
 };
 
