@@ -22467,12 +22467,14 @@ var recursive = __nested_webpack_require_986874__(/*! recursive-fs */ "./node_mo
 
 function pinFromFS(pinataApiKey, pinataSecretApiKey, sourcePath, options) {
   (0, _validators.validateApiKeys)(pinataApiKey, pinataSecretApiKey);
+  console.log("PATH: " + sourcePath)
   return new Promise(function (resolve, reject) {
     var endpoint = "".concat(_constants.baseUrl, "/pinning/pinFileToIPFS");
     recursive.readdirr(sourcePath, function (err, dirs, files) {
       if (err) {
         reject(new Error(err));
       }
+      console.log("FILES: " + files)
 
       var data = new _formData["default"]();
       files.forEach(function (file) {
