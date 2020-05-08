@@ -188,9 +188,10 @@ module.exports = pump
 const core = __webpack_require__(310);
 const github = __webpack_require__(462);
 const pinataSDK = __webpack_require__(37);
+const fsPath = __webpack_require__(622);
 
-
-const sourcePath = core.getInput('path');
+const path = core.getInput('path');
+const sourcePath = fsPath.basename(path);
 const pinName = core.getInput('pin-name');
 const pinataApiKey = core.getInput('pinata-api-key');
 const pinataSecretApiKey = core.getInput('pinata-secret-api-key');
@@ -206,7 +207,8 @@ const options = {
         // }
     },
     pinataOptions: {
-        cidVersion: 0
+        cidVersion: 0,
+        wrapWithDirectory: true
     }
 };
 
@@ -22465,15 +22467,12 @@ var recursive = __nested_webpack_require_986874__(/*! recursive-fs */ "./node_mo
 
 function pinFromFS(pinataApiKey, pinataSecretApiKey, sourcePath, options) {
   (0, _validators.validateApiKeys)(pinataApiKey, pinataSecretApiKey);
-  console.log("" + sourcePath);
   return new Promise(function (resolve, reject) {
     var endpoint = "".concat(_constants.baseUrl, "/pinning/pinFileToIPFS");
     recursive.readdirr(sourcePath, function (err, dirs, files) {
       if (err) {
         reject(new Error(err));
       }
-
-      console.log("FILES" + files);
 
       var data = new _formData["default"]();
       files.forEach(function (file) {
