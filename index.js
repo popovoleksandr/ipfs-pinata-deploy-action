@@ -9,6 +9,9 @@ const pinName = core.getInput('pin-name');
 const pinataApiKey = core.getInput('pinata-api-key');
 const pinataSecretApiKey = core.getInput('pinata-secret-api-key');
 
+console.log("path: " + path);
+console.log("sourcePath: " + sourcePath);
+
 const pinata = pinataSDK(pinataApiKey, pinataSecretApiKey);
 
 const options = {
@@ -28,7 +31,7 @@ const options = {
 pinata.pinFromFS(sourcePath, options).then((result) => {
     //handle results here
     console.log(result);
-    console.log("HASH: " + result);
+    console.log("HASH: " + result.IpfsHash);
     core.setOutput("hash", result.IpfsHash);
 
 }).catch((err) => {
