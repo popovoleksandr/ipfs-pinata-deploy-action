@@ -19,6 +19,7 @@
   "homepage": "https://github.com/anantaramdas/ipfs-pinata-deploy-action#readme",
   "dependencies": {
     "@actions/core": "^1.2.4",
-    "@actions/github": "^2.2.0"
+    "@actions/github": "^2.2.0",
+    "@pinata/sdk": "^1.1.8"
   }
 }

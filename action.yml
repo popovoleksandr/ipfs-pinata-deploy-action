@@ -1,13 +1,22 @@
 name: 'IPFS Pinata deploy GitHub action'
 description: 'Action which automates deploy to Pinata IPFS'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  path:  # id of input
+    description: 'Path to directory which should be sent to Pinata'
     required: true
-    default: 'World'
+    default: './build'
+  pin-name:  # id of input
+    description: 'Human name for pin'
+    required: true
+  pinata-api-key:  # id of input
+    description: 'Pinata API key'
+    required: true
+  pinata-secret-api-key:  # id of input
+    description: 'Pinata Secret API key'
+    required: true
 outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  hash: # id of output
+    description: 'uploaded hash'
 runs:
   using: 'node12'
   main: 'dist/index.js'
