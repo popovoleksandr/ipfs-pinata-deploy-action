@@ -1,9 +1,10 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const pinataSDK = require('@pinata/sdk');
+const fsPath = require('path');
 
-
-const sourcePath = core.getInput('path');
+const path = core.getInput('path');
+const sourcePath = fsPath.basename(path);
 const pinName = core.getInput('pin-name');
 const pinataApiKey = core.getInput('pinata-api-key');
 const pinataSecretApiKey = core.getInput('pinata-secret-api-key');
