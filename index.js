@@ -19,7 +19,8 @@ const options = {
         // }
     },
     pinataOptions: {
-        cidVersion: 0
+        cidVersion: 0,
+        wrapWithDirectory: true
     }
 };
 
