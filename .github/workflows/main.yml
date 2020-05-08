@@ -7,7 +7,7 @@ jobs:
     steps:
       - name: Hello world action step
         id: hello
-        uses: actions/hello-world-javascript-action@v1.1
+        uses: anantaramdas/ipfs-pinata-deploy-action@v1.2
         with:
           who-to-greet: 'Aleksandr Popov'
       # Use the output from the `hello` step
