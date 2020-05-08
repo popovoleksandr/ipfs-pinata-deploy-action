@@ -7,8 +7,6 @@ const path = core.getInput('path');
 
 let sourcePath = path;
 if(!fsPath.isAbsolute(path)) {
-
-    console.log("HOME: " + github.home);
     sourcePath = fsPath.join(__dirname, '..',  path);
 }
 

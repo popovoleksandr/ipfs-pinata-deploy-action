@@ -11,9 +11,9 @@ jobs:
 
       - name: Pinata deploy action step
         id: deploy
-        uses: anantaramdas/ipfs-pinata-deploy-action@v1.3.6.3
+        uses: anantaramdas/ipfs-pinata-deploy-action@v1.3.6.4
         with:
-          pin-name: 'TESTING (v1.3.6.3)'
+          pin-name: 'TESTING (v1.3.6.4)'
           path: './build'
           pinata-api-key: ${{ secrets.IPFS_PINATA_DEPLOY_ACTION_API_KEY }}
           pinata-secret-api-key: ${{ secrets.IPFS_PINATA_DEPLOY_ACTION_API_SECRET_KEY }}
