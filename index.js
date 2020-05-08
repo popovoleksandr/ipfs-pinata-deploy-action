@@ -4,11 +4,12 @@ const pinataSDK = require('@pinata/sdk');
 const fsPath = require('path');
 
 const path = core.getInput('path');
-if(fsPath.isAbsolute(path)) {
-    const sourcePath = path;
-} else {
-    const sourcePath = fsPath.join('github', 'home', '..', path);
+
+let sourcePath = path;
+if(!fsPath.isAbsolute(path)) {
+    sourcePath = fsPath.join('github', 'home', '..', path);
 }
+
 const pinName = core.getInput('pin-name');
 const pinataApiKey = core.getInput('pinata-api-key');
 const pinataSecretApiKey = core.getInput('pinata-secret-api-key');
