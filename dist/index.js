@@ -192,9 +192,11 @@ const fsPath = __webpack_require__(622);
 
 const path = core.getInput('path');
 
+const workspace = process.env.GITHUB_WORKSPACE.toString();
+
 let sourcePath = path;
 if(!fsPath.isAbsolute(path)) {
-    sourcePath = fsPath.join(__dirname, '..',  path);
+    sourcePath = fsPath.join(workspace, '..',  path);
 }
 
 const pinName = core.getInput('pin-name');
