@@ -194,7 +194,9 @@ const path = core.getInput('path');
 
 let sourcePath = path;
 if(!fsPath.isAbsolute(path)) {
-    sourcePath = fsPath.join('/', 'github', 'home',  path);
+
+    console.log("HOME: " + github.home);
+    sourcePath = fsPath.join(__dirname, '..',  path);
 }
 
 const pinName = core.getInput('pin-name');
