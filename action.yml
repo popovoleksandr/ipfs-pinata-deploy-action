@@ -4,7 +4,7 @@ inputs:
   path:  # id of input
     description: 'Path to directory which should be sent to Pinata'
     required: true
-    default: './build'
+    default: 'build'
   pin-name:  # id of input
     description: 'Human name for pin'
     required: true
