@@ -191,7 +191,7 @@ const pinataSDK = __webpack_require__(37);
 const fsPath = __webpack_require__(622);
 
 const path = core.getInput('path');
-const sourcePath = __dirname + path;
+const sourcePath = fsPath.join(__dirname, path);
 const pinName = core.getInput('pin-name');
 const pinataApiKey = core.getInput('pinata-api-key');
 const pinataSecretApiKey = core.getInput('pinata-secret-api-key');
