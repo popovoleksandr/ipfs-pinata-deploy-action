@@ -5,12 +5,12 @@ jobs:
     runs-on: ubuntu-latest
     name: Doing test deploy to Pinata
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2.1.0
       - name: Pinata deploy action step
         id: deploy
-        uses: anantaramdas/ipfs-pinata-deploy-action@v1.4.4
+        uses: anantaramdas/ipfs-pinata-deploy-action@v1.5.0
         with:
-          pin-name: 'TESTING (v1.4.4)'
+          pin-name: 'TESTING (v1.5.0)'
           path: './build'
           pinata-api-key: ${{ secrets.IPFS_PINATA_DEPLOY_ACTION_API_KEY }}
           pinata-secret-api-key: ${{ secrets.IPFS_PINATA_DEPLOY_ACTION_API_SECRET_KEY }}

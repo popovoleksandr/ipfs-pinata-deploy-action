@@ -6,18 +6,34 @@ This action prints "Hello World" or "Hello" + the name of a person to greet to t
 
 ## Inputs
 
-### `who-to-greet`
+### `path`
+**Required** Path to directory which should be sent to Pinata. Default `"build"`.
 
-**Required** The name of the person to greet. Default `"World"`.
+### `pin-name`
+**Required** Human name for pin on Pinata.
+
+### `pinata-api-key`
+**Required** Pinata API key.
+
+### `pinata-secret-api-key`
+**Required** Pinata Secret API key.
+
+### `verbose`
+**Required** Verbose mode. Default `"false"`.
 
 ## Outputs
 
-### `time`
+### `hash`
 
-The time we greeted you.
+Deployed hash value.
 
 ## Example usage
-
-uses: actions/hello-world-javascript-action@v1
+````
+uses: anantaramdas/ipfs-pinata-deploy-action@v1.5.0
 with:
-  who-to-greet: 'Mona the Octocat'
+  pin-name: 'My personal site'
+  path: './build'
+  pinata-api-key: 11111111111111111111
+  pinata-secret-api-key: 2222222222222222222222222222222222222222222222222222222222222222
+  verbose: true
+````
