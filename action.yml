@@ -1,5 +1,8 @@
 name: 'IPFS Pinata deploy GitHub action'
 description: 'Action which automates deploy to Pinata IPFS'
+branding:
+  icon: 'server'
+  color: 'white'
 inputs:
   path:  # id of input
     description: 'Path to directory which should be sent to Pinata'
