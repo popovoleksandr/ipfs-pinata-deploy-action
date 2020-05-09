@@ -29,7 +29,7 @@ Deployed hash value.
 
 ## Example usage
 ````
-uses: anantaramdas/ipfs-pinata-deploy-action@v1.5.1
+uses: anantaramdas/ipfs-pinata-deploy-action@v1.5.2
 with:
   pin-name: 'My personal site'
   path: './build'
@@ -37,3 +37,6 @@ with:
   pinata-secret-api-key: 2222222222222222222222222222222222222222222222222222222222222222
   verbose: true
 ````
+
+## Contributing
+We are open for contribution. If you would like to contribute kindly create pull request. 
