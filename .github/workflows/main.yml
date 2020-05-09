@@ -5,7 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Doing test deploy to Pinata
     steps:
-
+      - uses: actions/checkout@v1
+      - run: |
+          ls -l /home/runner/work/ipfs-pinata-deploy-action
+          ls -l /home/runner/work/ipfs-pinata-deploy-action/ipfs-pinata-deploy-action
       - name: Pinata deploy action step
         id: deploy
         uses: anantaramdas/ipfs-pinata-deploy-action@v1.4.3
