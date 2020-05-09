@@ -14,6 +14,10 @@ inputs:
   pinata-secret-api-key:  # id of input
     description: 'Pinata Secret API key'
     required: true
+  verbose:  # id of input
+    description: 'Verbose mode'
+    required: true
+    default: false
 outputs:
   hash: # id of output
     description: 'uploaded hash'

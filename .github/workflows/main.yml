@@ -6,17 +6,15 @@ jobs:
     name: Doing test deploy to Pinata
     steps:
       - uses: actions/checkout@v1
-      - run: |
-          ls -l /home/runner/work/ipfs-pinata-deploy-action
-          ls -l /home/runner/work/ipfs-pinata-deploy-action/ipfs-pinata-deploy-action
       - name: Pinata deploy action step
         id: deploy
-        uses: anantaramdas/ipfs-pinata-deploy-action@v1.4.3
+        uses: anantaramdas/ipfs-pinata-deploy-action@v1.4.4
         with:
-          pin-name: 'TESTING (v1.4.3)'
+          pin-name: 'TESTING (v1.4.4)'
           path: './build'
           pinata-api-key: ${{ secrets.IPFS_PINATA_DEPLOY_ACTION_API_KEY }}
           pinata-secret-api-key: ${{ secrets.IPFS_PINATA_DEPLOY_ACTION_API_SECRET_KEY }}
+          verbose: true
       # Use the output from the `deploy` step
       - name: Get the output hash
         run: echo "The hash was ${{ steps.deploy.outputs.hash }}"

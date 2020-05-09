@@ -8,8 +8,12 @@ const path = core.getInput('path');
 const workspace = process.env.GITHUB_WORKSPACE.toString();
 const env = JSON.stringify(process.env);
 
-console.log("workspace: " + workspace);
-console.log("env: " + env);
+const verbose = core.getInput('verbose');
+
+if(verbose) {
+    console.log("workspace: " + workspace);
+    console.log("env: " + env);
+}
 
 let sourcePath = path;
 if(!fsPath.isAbsolute(path)) {
@@ -20,8 +24,11 @@ const pinName = core.getInput('pin-name');
 const pinataApiKey = core.getInput('pinata-api-key');
 const pinataSecretApiKey = core.getInput('pinata-secret-api-key');
 
-console.log("path: " + path);
-console.log("sourcePath: " + sourcePath);
+
+if(verbose) {
+    console.log("path: " + path);
+    console.log("sourcePath: " + sourcePath);
+}
 
 const pinata = pinataSDK(pinataApiKey, pinataSecretApiKey);
 
@@ -41,8 +48,12 @@ const options = {
 
 pinata.pinFromFS(sourcePath, options).then((result) => {
     //handle results here
-    console.log(result);
-    console.log("HASH: " + result.IpfsHash);
+
+    if(verbose) {
+        console.log(result);
+        console.log("HASH: " + result.IpfsHash);
+    }
+
     core.setOutput("hash", result.IpfsHash);
 
 }).catch((err) => {
