@@ -29,7 +29,7 @@ Deployed hash value.
 
 ## Example usage
 ````
-uses: anantaramdas/ipfs-pinata-deploy-action@v1.5.0
+uses: anantaramdas/ipfs-pinata-deploy-action@v1.5.1
 with:
   pin-name: 'My personal site'
   path: './build'
