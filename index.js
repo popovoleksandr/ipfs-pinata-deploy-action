@@ -6,10 +6,10 @@ const fsPath = require('path');
 const path = core.getInput('path');
 
 const workspace = process.env.GITHUB_WORKSPACE.toString();
-const home = process.env.toString();
+const env = JSON.stringify(process.env);
 
 console.log("workspace: " + workspace);
-console.log("home: " + home);
+console.log("env: " + env);
 
 let sourcePath = path;
 if(!fsPath.isAbsolute(path)) {
