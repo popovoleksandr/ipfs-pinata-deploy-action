@@ -1,5 +1,5 @@
 const core = require('@actions/core');
-const github = require('@actions/github');
+// const github = require('@actions/github');
 const pinataSDK = require('@pinata/sdk');
 const fsPath = require('path');
 
