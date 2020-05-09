@@ -1,8 +1,8 @@
 # ipfs-pinata-deploy-action
 
-# Hello world javascript action
+# IPFS Pinata service deploy
 
-This action prints "Hello World" or "Hello" + the name of a person to greet to the log.
+This action deploys to IPFS through Pinata service
 
 ## Inputs
 
