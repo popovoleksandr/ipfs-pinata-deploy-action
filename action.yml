@@ -17,6 +17,10 @@ inputs:
   pinata-secret-api-key:
     description: 'Pinata Secret API key'
     required: true
+  remove-old:
+    description: 'Remove old pin(-s) with same same'
+    required: false
+    default: 'false'
   verbose:
     description: 'Verbose mode'
     required: true

@@ -18,6 +18,9 @@ This action deploys to IPFS through Pinata service
 ### `pinata-secret-api-key`
 **Required** Pinata Secret API key.
 
+### `remove-old`
+Should action also remove old pin(-s) from Pinata service with same name. Default `"false"`.
+
 ### `verbose`
 **Required** Verbose mode. Default `"false"`.
 
