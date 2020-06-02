@@ -19,7 +19,13 @@ module.exports =
 /******/ 		};
 /******/
 /******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 		var threw = true;
+/******/ 		try {
+/******/ 			modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 			threw = false;
+/******/ 		} finally {
+/******/ 			if(threw) delete installedModules[moduleId];
+/******/ 		}
 /******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.l = true;
@@ -34,7 +40,7 @@ module.exports =
 /******/ 	// the startup function
 /******/ 	function startup() {
 /******/ 		// Load entry module and return exports
-/******/ 		return __webpack_require__(34);
+/******/ 		return __webpack_require__(622);
 /******/ 	};
 /******/
 /******/ 	// run startup
@@ -43,75 +49,14 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
-/***/ 34:
-/***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
+/***/ 87:
+/***/ (function(module) {
 
-const core = __webpack_require__(310);
-// const github = require('@actions/github');
-const pinataSDK = __webpack_require__(37);
-const fsPath = __webpack_require__(622);
-
-const path = core.getInput('path');
-
-const workspace = process.env.GITHUB_WORKSPACE.toString();
-const env = JSON.stringify(process.env);
-
-const verbose = core.getInput('verbose');
-
-if(verbose) {
-    console.log("workspace: " + workspace);
-    console.log("env: " + env);
-}
-
-let sourcePath = path;
-if(!fsPath.isAbsolute(path)) {
-    sourcePath = fsPath.join(workspace, path);
-}
-
-const pinName = core.getInput('pin-name');
-const pinataApiKey = core.getInput('pinata-api-key');
-const pinataSecretApiKey = core.getInput('pinata-secret-api-key');
-
-
-if(verbose) {
-    console.log("path: " + path);
-    console.log("sourcePath: " + sourcePath);
-}
-
-const pinata = pinataSDK(pinataApiKey, pinataSecretApiKey);
-
-const options = {
-    pinataMetadata: {
-        name: pinName,
-        // keyvalues: {
-        //     customKey: 'customValue',
-        //     customKey2: 'customValue2'
-        // }
-    },
-    pinataOptions: {
-        cidVersion: 0,
-        wrapWithDirectory: false
-    }
-};
-
-pinata.pinFromFS(sourcePath, options).then((result) => {
-    //handle results here
-
-    if(verbose) {
-        console.log(result);
-        console.log("HASH: " + result.IpfsHash);
-    }
-
-    core.setOutput("hash", result.IpfsHash);
-
-}).catch((err) => {
-    //handle error here
-    console.log(err);
-});
+module.exports = require("os");
 
 /***/ }),
 
-/***/ 37:
+/***/ 116:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -23100,7 +23045,7 @@ module.exports = __webpack_require__(87);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = __webpack_require__(622);
+module.exports = __webpack_require__(277);
 
 /***/ }),
 
@@ -23165,17 +23110,116 @@ module.exports = __webpack_require__(761);
 
 /***/ }),
 
-/***/ 87:
-/***/ (function(module) {
-
-module.exports = require("os");
-
-/***/ }),
-
 /***/ 211:
 /***/ (function(module) {
 
 module.exports = require("https");
+
+/***/ }),
+
+/***/ 215:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const os = __importStar(__webpack_require__(87));
+/**
+ * Commands
+ *
+ * Command Format:
+ *   ::name key=value,key=value::message
+ *
+ * Examples:
+ *   ::warning::This is the message
+ *   ::set-env name=MY_VAR::some value
+ */
+function issueCommand(command, properties, message) {
+    const cmd = new Command(command, properties, message);
+    process.stdout.write(cmd.toString() + os.EOL);
+}
+exports.issueCommand = issueCommand;
+function issue(name, message = '') {
+    issueCommand(name, {}, message);
+}
+exports.issue = issue;
+const CMD_STRING = '::';
+class Command {
+    constructor(command, properties, message) {
+        if (!command) {
+            command = 'missing.command';
+        }
+        this.command = command;
+        this.properties = properties;
+        this.message = message;
+    }
+    toString() {
+        let cmdStr = CMD_STRING + this.command;
+        if (this.properties && Object.keys(this.properties).length > 0) {
+            cmdStr += ' ';
+            let first = true;
+            for (const key in this.properties) {
+                if (this.properties.hasOwnProperty(key)) {
+                    const val = this.properties[key];
+                    if (val) {
+                        if (first) {
+                            first = false;
+                        }
+                        else {
+                            cmdStr += ',';
+                        }
+                        cmdStr += `${key}=${escapeProperty(val)}`;
+                    }
+                }
+            }
+        }
+        cmdStr += `${CMD_STRING}${escapeData(this.message)}`;
+        return cmdStr;
+    }
+}
+/**
+ * Sanitizes an input into a string so it can be passed into issueCommand safely
+ * @param input input to sanitize into a string
+ */
+function toCommandValue(input) {
+    if (input === null || input === undefined) {
+        return '';
+    }
+    else if (typeof input === 'string' || input instanceof String) {
+        return input;
+    }
+    return JSON.stringify(input);
+}
+exports.toCommandValue = toCommandValue;
+function escapeData(s) {
+    return toCommandValue(s)
+        .replace(/%/g, '%25')
+        .replace(/\r/g, '%0D')
+        .replace(/\n/g, '%0A');
+}
+function escapeProperty(s) {
+    return toCommandValue(s)
+        .replace(/%/g, '%25')
+        .replace(/\r/g, '%0D')
+        .replace(/\n/g, '%0A')
+        .replace(/:/g, '%3A')
+        .replace(/,/g, '%2C');
+}
+//# sourceMappingURL=command.js.map
+
+/***/ }),
+
+/***/ 277:
+/***/ (function(module) {
+
+module.exports = require("path");
 
 /***/ }),
 
@@ -23186,7 +23230,157 @@ module.exports = require("buffer");
 
 /***/ }),
 
-/***/ 310:
+/***/ 357:
+/***/ (function(module) {
+
+module.exports = require("assert");
+
+/***/ }),
+
+/***/ 413:
+/***/ (function(module) {
+
+module.exports = require("stream");
+
+/***/ }),
+
+/***/ 605:
+/***/ (function(module) {
+
+module.exports = require("http");
+
+/***/ }),
+
+/***/ 622:
+/***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
+
+const core = __webpack_require__(827);
+const pinataSDK = __webpack_require__(116);
+const fsPath = __webpack_require__(277);
+
+// Getting all inputs
+const path = core.getInput('path');
+const pinName = core.getInput('pin-name');
+const pinataApiKey = core.getInput('pinata-api-key');
+const pinataSecretApiKey = core.getInput('pinata-secret-api-key');
+const verbose = core.getInput('verbose');
+const removeOld = core.getInput('remove-old');
+
+// Getting workspace directory
+const workspace = process.env.GITHUB_WORKSPACE.toString();
+
+if(verbose) {
+    console.log("workspace: " + workspace);
+
+    const env = JSON.stringify(process.env);
+    console.log("env: " + env);
+}
+
+// If path is absolute use it
+let sourcePath = path;
+
+// Otherwise combine it using workspace and provided path
+if(!fsPath.isAbsolute(path)) {
+    sourcePath = fsPath.join(workspace, path);
+}
+
+if(verbose) {
+    console.log("path: " + path);
+    console.log("sourcePath: " + sourcePath);
+}
+
+// Connecting to Pinata
+const pinata = pinataSDK(pinataApiKey, pinataSecretApiKey);
+
+// Constructing Pinata options
+const options = {
+    pinataMetadata: {
+        name: pinName,
+    },
+    pinataOptions: {
+        cidVersion: 0,
+        wrapWithDirectory: false
+    }
+};
+
+// Function to unpin old hashes
+function unpinHash(hashToUnpin) {
+	pinata.unpin(hashToUnpin).then((result) => {
+        if(verbose) {
+            console.log(result);
+        }
+    }).catch((err) => {
+        console.log(err);
+    });
+}
+
+// Function to search for all old pins with the same name and unpin them if they are not the latest one
+function removeOldPinsSaving(hash) {
+	const metadataFilter = {
+		name: pinName,
+	};
+	const filters = {
+		status: "pinned",
+		pageLimit: 1000,
+		pageOffset: 0,
+		metadata: metadataFilter,
+	};
+	pinata.pinList(filters).then((result) => {
+            if(verbose) {
+                console.log(result);
+            }
+			result.rows.forEach((element) => {
+				if (element.ipfs_pin_hash != hash) {
+					unpinHash(element.ipfs_pin_hash);
+				}
+			});
+		}).catch((err) => {
+            console.log(err);
+        });
+}
+
+// Deploying (pining) to IPFS using Pinata from file system
+pinata.pinFromFS(sourcePath, options).then((result) => {
+    if(verbose) {
+        console.log(result);
+        console.log("HASH: " + result.IpfsHash);
+    }
+
+    if(removeOld) {
+        removeOldPinsSaving(result.IpfsHash);
+    }
+
+    // Providing hash as output parameter of execution
+    core.setOutput("hash", result.IpfsHash);
+}).catch((err) => {
+    console.log(err);
+});
+
+
+/***/ }),
+
+/***/ 669:
+/***/ (function(module) {
+
+module.exports = require("util");
+
+/***/ }),
+
+/***/ 747:
+/***/ (function(module) {
+
+module.exports = require("fs");
+
+/***/ }),
+
+/***/ 761:
+/***/ (function(module) {
+
+module.exports = require("zlib");
+
+/***/ }),
+
+/***/ 827:
 /***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
@@ -23208,9 +23402,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const command_1 = __webpack_require__(997);
+const command_1 = __webpack_require__(215);
 const os = __importStar(__webpack_require__(87));
-const path = __importStar(__webpack_require__(622));
+const path = __importStar(__webpack_require__(277));
 /**
  * The code to exit an action
  */
@@ -23415,55 +23609,6 @@ exports.getState = getState;
 
 /***/ }),
 
-/***/ 357:
-/***/ (function(module) {
-
-module.exports = require("assert");
-
-/***/ }),
-
-/***/ 413:
-/***/ (function(module) {
-
-module.exports = require("stream");
-
-/***/ }),
-
-/***/ 605:
-/***/ (function(module) {
-
-module.exports = require("http");
-
-/***/ }),
-
-/***/ 622:
-/***/ (function(module) {
-
-module.exports = require("path");
-
-/***/ }),
-
-/***/ 669:
-/***/ (function(module) {
-
-module.exports = require("util");
-
-/***/ }),
-
-/***/ 747:
-/***/ (function(module) {
-
-module.exports = require("fs");
-
-/***/ }),
-
-/***/ 761:
-/***/ (function(module) {
-
-module.exports = require("zlib");
-
-/***/ }),
-
 /***/ 835:
 /***/ (function(module) {
 
@@ -23475,105 +23620,6 @@ module.exports = require("url");
 /***/ (function(module) {
 
 module.exports = require("tty");
-
-/***/ }),
-
-/***/ 997:
-/***/ (function(__unusedmodule, exports, __webpack_require__) {
-
-"use strict";
-
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const os = __importStar(__webpack_require__(87));
-/**
- * Commands
- *
- * Command Format:
- *   ::name key=value,key=value::message
- *
- * Examples:
- *   ::warning::This is the message
- *   ::set-env name=MY_VAR::some value
- */
-function issueCommand(command, properties, message) {
-    const cmd = new Command(command, properties, message);
-    process.stdout.write(cmd.toString() + os.EOL);
-}
-exports.issueCommand = issueCommand;
-function issue(name, message = '') {
-    issueCommand(name, {}, message);
-}
-exports.issue = issue;
-const CMD_STRING = '::';
-class Command {
-    constructor(command, properties, message) {
-        if (!command) {
-            command = 'missing.command';
-        }
-        this.command = command;
-        this.properties = properties;
-        this.message = message;
-    }
-    toString() {
-        let cmdStr = CMD_STRING + this.command;
-        if (this.properties && Object.keys(this.properties).length > 0) {
-            cmdStr += ' ';
-            let first = true;
-            for (const key in this.properties) {
-                if (this.properties.hasOwnProperty(key)) {
-                    const val = this.properties[key];
-                    if (val) {
-                        if (first) {
-                            first = false;
-                        }
-                        else {
-                            cmdStr += ',';
-                        }
-                        cmdStr += `${key}=${escapeProperty(val)}`;
-                    }
-                }
-            }
-        }
-        cmdStr += `${CMD_STRING}${escapeData(this.message)}`;
-        return cmdStr;
-    }
-}
-/**
- * Sanitizes an input into a string so it can be passed into issueCommand safely
- * @param input input to sanitize into a string
- */
-function toCommandValue(input) {
-    if (input === null || input === undefined) {
-        return '';
-    }
-    else if (typeof input === 'string' || input instanceof String) {
-        return input;
-    }
-    return JSON.stringify(input);
-}
-exports.toCommandValue = toCommandValue;
-function escapeData(s) {
-    return toCommandValue(s)
-        .replace(/%/g, '%25')
-        .replace(/\r/g, '%0D')
-        .replace(/\n/g, '%0A');
-}
-function escapeProperty(s) {
-    return toCommandValue(s)
-        .replace(/%/g, '%25')
-        .replace(/\r/g, '%0D')
-        .replace(/\n/g, '%0A')
-        .replace(/:/g, '%3A')
-        .replace(/,/g, '%2C');
-}
-//# sourceMappingURL=command.js.map
 
 /***/ })
 
