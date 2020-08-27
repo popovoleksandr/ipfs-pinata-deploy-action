@@ -32,13 +32,14 @@ Deployed hash value.
 
 ## Example usage
 ````
-uses: anantaramdas/ipfs-pinata-deploy-action@v1.5.2
+uses: anantaramdas/ipfs-pinata-deploy-action@v1.6.2
 with:
   pin-name: 'My personal site'
   path: './build'
   pinata-api-key: 11111111111111111111
   pinata-secret-api-key: 2222222222222222222222222222222222222222222222222222222222222222
   verbose: true
+  remove-old: false
 ````
 
 ## Contributing
