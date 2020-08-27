@@ -1,11 +1,11 @@
 {
   "name": "ipfs-pinata-deploy-action",
-  "version": "1.5.2",
+  "version": "1.6.3",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "ncc build index.js"
+    "build": "ncc site index.js"
   },
   "repository": {
     "type": "git",

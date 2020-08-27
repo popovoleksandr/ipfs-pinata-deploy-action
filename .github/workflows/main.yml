@@ -8,13 +8,14 @@ jobs:
       - uses: actions/checkout@v2.1.0
       - name: Pinata deploy action step
         id: deploy
-        uses: anantaramdas/ipfs-pinata-deploy-action@v1.6.2
+        uses: anantaramdas/ipfs-pinata-deploy-action@v1.6.3
         with:
-          pin-name: 'TESTING (v1.6.2)'
-          path: './build'
+          pin-name: 'TESTING (v1.6.3)'
+          path: './site'
           pinata-api-key: ${{ secrets.IPFS_PINATA_DEPLOY_ACTION_API_KEY }}
           pinata-secret-api-key: ${{ secrets.IPFS_PINATA_DEPLOY_ACTION_API_SECRET_KEY }}
           verbose: true
+          remove-old: false
       # Use the output from the `deploy` step
       - name: Get the output hash
         run: echo "The hash was ${{ steps.deploy.outputs.hash }}"
