@@ -4,7 +4,8 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "ncc build index.js"
   },
   "repository": {
     "type": "git",
@@ -17,9 +18,10 @@
     "url": "https://github.com/anantaramdas/ipfs-pinata-deploy-action/issues"
   },
   "homepage": "https://github.com/anantaramdas/ipfs-pinata-deploy-action#readme",
-  "dependencies": {
+  "devDependencies": {
     "@actions/core": "^1.2.4",
     "@actions/github": "^2.2.0",
-    "@pinata/sdk": "^1.1.8"
+    "@pinata/sdk": "^1.1.11",
+    "@zeit/ncc": "^0.22.3"
   }
 }

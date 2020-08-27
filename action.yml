@@ -27,7 +27,7 @@ inputs:
     default: 'false'
 outputs:
   hash:
-    description: 'uploaded hash'
+    description: 'IPFS hash of the uploaded file or directory'
 runs:
   using: 'node12'
   main: 'dist/index.js'
