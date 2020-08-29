@@ -8,10 +8,10 @@ jobs:
       - uses: actions/checkout@v2.1.0
       - name: Pinata deploy action step
         id: deploy
-        uses: anantaramdas/ipfs-pinata-deploy-action@v1.6.3
+        uses: anantaramdas/ipfs-pinata-deploy-action@v1.6.4
         with:
           pin-name: 'TESTING (v1.6.3)'
-          path: './site'
+          path: './.github/workflows/site2test'
           pinata-api-key: ${{ secrets.IPFS_PINATA_DEPLOY_ACTION_API_KEY }}
           pinata-secret-api-key: ${{ secrets.IPFS_PINATA_DEPLOY_ACTION_API_SECRET_KEY }}
           verbose: true
