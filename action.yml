@@ -20,11 +20,11 @@ inputs:
   remove-old:
     description: 'Remove old pin(-s) with same same'
     required: false
-    default: 'false'
+    default: false
   verbose:
     description: 'Verbose mode'
     required: true
-    default: 'false'
+    default: false
 outputs:
   hash:
     description: 'IPFS hash of the uploaded file or directory'
