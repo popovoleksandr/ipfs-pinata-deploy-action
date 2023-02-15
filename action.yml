@@ -29,5 +29,5 @@ outputs:
   hash:
     description: 'IPFS hash of the uploaded file or directory'
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
