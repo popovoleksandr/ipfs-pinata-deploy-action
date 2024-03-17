@@ -21,7 +21,7 @@
   "devDependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^2.2.0",
-    "@pinata/sdk": "^1.1.11",
+    "@pinata/sdk": "^1.2.1",
     "@zeit/ncc": "^0.22.3"
   }
 }
